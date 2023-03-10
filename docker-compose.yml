@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    image: graphsp-web:latest
+    command: python manage.py runserver  --settings=graphspace.settings.local 0.0.0.0:8000
+   
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    networks:
+      - webnet
+
+  db:
+    image: postgres:9.6.2
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+      - ./initdb:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: graphspace_user
+      POSTGRES_PASSWORD: user
+      POSTGRES_DB: graphspace_db
+    networks:
+      - webnet
+
+networks:
+  webnet:
+
+volumes:
+  db_data:
