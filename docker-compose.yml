@@ -4,6 +4,8 @@ services:
   web:
     build: .
     image: graphsp-web:latest
+    command: >
+      sh -c "python manage.py migrate --settings=graphspace.settings.local && python manage.py runserver 0.0.0.0:8000 --settings=graphspace.settings.local"
     command: python manage.py runserver  --settings=graphspace.settings.local 0.0.0.0:8000
    
     ports:
