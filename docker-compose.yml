@@ -6,8 +6,6 @@ services:
     image: graphsp-web:latest
     command: >
       sh -c "python manage.py migrate --settings=graphspace.settings.local && python manage.py runserver 0.0.0.0:8000 --settings=graphspace.settings.local"
-    command: python manage.py runserver  --settings=graphspace.settings.local 0.0.0.0:8000
-   
     ports:
       - "8000:8000"
     environment:
@@ -30,6 +28,8 @@ services:
       POSTGRES_DB: graphspace_db
     networks:
       - webnet
+    ports:
+      - "5432:5432"
 
 networks:
   webnet:
